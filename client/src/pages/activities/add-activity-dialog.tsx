@@ -42,7 +42,8 @@ export function AddActivityDialog() {
   const form = useForm<InsertActivity>({
     resolver: zodResolver(insertActivitySchema),
     defaultValues: {
-      date: new Date().toISOString().split('T')[0],
+      name: "",
+      date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
       revenue: 0,
     },
   });
@@ -133,7 +134,11 @@ export function AddActivityDialog() {
                 <FormItem>
                   <FormLabel>Date</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input 
+                      type="date" 
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

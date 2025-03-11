@@ -54,11 +54,11 @@ export const insertMembershipSchema = createInsertSchema(memberships).extend({
   joinDate: z.string().transform((str) => new Date(str)),
 });
 
-export const insertActivitySchema = createInsertSchema(activities).pick({
-  clubId: true,
-  name: true,
-  date: true,
-  revenue: true,
+export const insertActivitySchema = createInsertSchema(activities).extend({
+  clubId: z.number(),
+  name: z.string(),
+  date: z.string().transform((str) => new Date(str)),
+  revenue: z.number().min(0),
 });
 
 // Types
