@@ -48,7 +48,7 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
     defaultValues: {
       studentId,
       role: "regular",
-      joinDate: new Date(),
+      joinDate: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
     },
   });
 
@@ -151,8 +151,26 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
                   <FormControl>
                     <Input
                       {...field}
+                      value={field.value || ''}
                       placeholder="e.g. Chairperson, Secretary"
                       disabled={form.watch("role") !== "executive"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="joinDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Join Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="date"
+                      value={field.value}
                     />
                   </FormControl>
                   <FormMessage />

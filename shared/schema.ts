@@ -46,12 +46,12 @@ export const insertStudentSchema = createInsertSchema(students).pick({
   class: true,
 });
 
-export const insertMembershipSchema = createInsertSchema(memberships).pick({
-  studentId: true,
-  clubId: true,
-  role: true,
-  position: true,
-  joinDate: true,
+export const insertMembershipSchema = createInsertSchema(memberships).extend({
+  studentId: z.number(),
+  clubId: z.number(),
+  role: z.enum(["regular", "executive"]),
+  position: z.string().nullable(),
+  joinDate: z.string().transform((str) => new Date(str)),
 });
 
 export const insertActivitySchema = createInsertSchema(activities).pick({
