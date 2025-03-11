@@ -31,7 +31,7 @@ export function AddClubDialog() {
     defaultValues: {
       name: "",
       patron: "",
-      registrationFee: "0",
+      registrationFee: 0,
     },
   });
 
@@ -112,7 +112,7 @@ export function AddClubDialog() {
                       type="number"
                       min="0"
                       step="0.01"
-                      onChange={(e) => field.onChange(e.target.value)}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                       placeholder="Enter registration fee"
                     />
                   </FormControl>
