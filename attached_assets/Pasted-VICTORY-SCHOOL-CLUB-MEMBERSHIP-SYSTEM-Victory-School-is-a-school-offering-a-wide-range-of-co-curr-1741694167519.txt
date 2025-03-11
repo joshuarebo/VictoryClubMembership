@@ -1,0 +1,58 @@
+VICTORY SCHOOL CLUB MEMBERSHIP SYSTEM
+
+Victory School is a school offering a wide range of co-curricular activities besides the formal curriculum. Some of these co-curricular activities in the school include clubs and societies.
+
+Clubs and societies refer to organised groups formed within a school to engage students in specific areas of interest or activities outside of academic classes. These clubs and societies are student-led and provide a platform for students to come together and pursue shared interests and hobbies.
+
+The school offers the following clubs: Debating Club, Chess Club, Science Club, Mathematics Club, Drama Club, Music Club (Band, Choir, Instrumental), Art Club, Writing Club, Environmental Club, Computer Science Club, Photography Club and Agriculture Club.
+
+When a student is admitted in the school, he or she is required to register to be a member of one or more clubs. The details of the new member which includes; admission number, name and their class are captured. The school has four streams in each form namely; East (E), North (N), South (S) and West (W). A class is therefore identified by form and the stream such as 2E, 3N, 4S and so forth.
+
+A new member joining a club is required to pay a non-refundable registration fee which varies by club as follows:
+
+﻿﻿Debate Club, Chess Club and Music Club (Band, Choir, Instrumental) require a registration fee of KES 200 each.
+﻿﻿Science Club, Mathematics Club, Drama Club, Writing Club and Computer Science Club require a registration fee of KES 250 each.
+﻿﻿Art Club and Agriculture Club requires a fee of KES 300 each while Environmental Club a registration fee of KES 100.
+Membership in a club is classified into the following categories based on members roles and responsibilities as follows:
+
+﻿﻿Regular/General are members who perform core activities of the club and attend all regular meetings.
+﻿﻿Executive/Leaders are members who hold specific leadership positions such as Chairperson, vice chairperson, treasurer and secretary. They are responsible for guiding the clubs activities, making decisions and coordinating events.
+3
+
+Each club in the school is assigned a patron who is a teacher. The responsibilities of the patron is to advice and mentor students, promote engagements, advocacy as well as liaise with the school administration among others.
+
+At the beginning of each academic year, a student may join an existing club as a new member or exit a club provided that he or she is a member of at least one club. Any member in leadership position who wishes to exit from a club must clear with the club's patron.
+
+Each club should carry out one revenue generating activity to support its other club activities.
+
+Details of the activity, which includes activity name, date of occurrence, and the amount collected, must be provided. For example in the Debate Club, the activity may include organizing debating tournaments or selling club merchandise or hosting fund raising events.
+
+Out of the total revenue generated from the clubs' activities and registration fees, 50% is allocated to supporting the clubs ongoing activities, 30% is allocated to organizing the clubs' annual parties or outings outside the school. The balance is saved for the club.
+
+The school supports clubs annual parties or outings by contributing 70% of the amount allocated for the activity or event.
+
+Develop a database management system along with its accompanying documentation to support the school's club operations. The system should perform the following tasks:
+
+(a) Store and manage details of school clubs and their patrons.
+
+(b)
+
+Store and manage student membership including their specific roles in the clubs.
+
+(c)
+
+Store and manage club activities and events.
+
+﻿﻿﻿﻿Track members who join or leave a club at the beginning of an academic year.
+﻿﻿﻿﻿Manage club finances generated from club activities, including registration fees and
+expenses.
+(f)
+
+Compute the school's financial contributions to the clubs' activities.
+
+(g)
+
+Compute the savings for each club.
+
+﻿﻿﻿﻿Generate reports of the financial summaries of the clubs.
+﻿﻿﻿﻿Generate report of clubs' activities and events.
