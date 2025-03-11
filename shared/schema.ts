@@ -36,10 +36,8 @@ export const activities = pgTable("activities", {
 });
 
 // Insert schemas
-export const insertClubSchema = createInsertSchema(clubs).pick({
-  name: true,
-  patron: true,
-  registrationFee: true,
+export const insertClubSchema = createInsertSchema(clubs).extend({
+  registrationFee: z.number().min(0).transform(val => val.toString()),
 });
 
 export const insertStudentSchema = createInsertSchema(students).pick({
