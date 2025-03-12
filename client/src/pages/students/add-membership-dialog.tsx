@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,7 +39,7 @@ interface AddMembershipDialogProps {
 export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // Fetch available clubs
   const { data: clubs } = useQuery<Club[]>({
