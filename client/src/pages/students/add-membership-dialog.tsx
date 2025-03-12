@@ -57,8 +57,8 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertMembership) => {
-      const res = await apiRequest("POST", "/api/memberships", data);
-      return res.json();
+      const res = await apiRequest("/api/memberships", data);
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/memberships"] });
