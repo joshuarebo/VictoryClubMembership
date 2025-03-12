@@ -52,8 +52,8 @@ export function AddActivityDialog() {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertActivity) => {
-      const res = await apiRequest("POST", "/api/activities", data);
-      return res.json();
+      const res = await apiRequest("/api/activities", data);
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/activities"] });
