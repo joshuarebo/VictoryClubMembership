@@ -55,3 +55,48 @@ export const queryClient = new QueryClient({
     },
   },
 });
+import { QueryClient } from "@tanstack/react-query";
+
+export type Method = "GET" | "POST" | "PUT" | "DELETE";
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+      queryFn: async ({ queryKey }) => {
+        const [url, params] = queryKey;
+        if (typeof url !== "string") {
+          throw new Error(`Invalid query key: ${url}`);
+        }
+        
+        const res = await apiRequest("GET", url, params);
+        
+        if (!res.ok) {
+          const error = await res.json().catch(() => ({}));
+          throw new Error(error.message || "An error occurred");
+        }
+        
+        return res.json();
+      },
+    },
+  },
+});
+
+export const apiRequest = async (method: Method, path: string, body?: any) => {
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const options: RequestInit = {
+    method,
+    headers,
+  };
+
+  if (body && method !== "GET") {
+    options.body = JSON.stringify(body);
+  }
+
+  return fetch(path, options);
+};

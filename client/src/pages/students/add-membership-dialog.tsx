@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -37,6 +38,7 @@ interface AddMembershipDialogProps {
 export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [open, setOpen] = React.useState(false);
 
   // Fetch available clubs
   const { data: clubs } = useQuery<Club[]>({
@@ -64,6 +66,7 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
         description: "Student successfully joined the club",
       });
       form.reset();
+      setOpen(false);
     },
     onError: (error) => {
       toast({
@@ -74,8 +77,12 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
     },
   });
 
+  const onSubmit = (data: InsertMembership) => {
+    mutation.mutate(data);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <UserPlus className="h-4 w-4 mr-2" />
@@ -84,22 +91,19 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Join Club</DialogTitle>
+          <DialogTitle>Add Student to Club</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="clubId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select Club</FormLabel>
+                  <FormLabel>Club</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(parseInt(value))}
-                    defaultValue={field.value?.toString()}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value?.toString()}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -109,7 +113,7 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
                     <SelectContent>
                       {clubs?.map((club) => (
                         <SelectItem key={club.id} value={club.id.toString()}>
-                          {club.name} - KES {club.registrationFee}
+                          {club.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -130,7 +134,7 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select role" />
+                        <SelectValue placeholder="Select a role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -147,14 +151,9 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
               name="position"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Position (for Executive Members)</FormLabel>
+                  <FormLabel>Position (Optional)</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value || ''}
-                      placeholder="e.g. Chairperson, Secretary"
-                      disabled={form.watch("role") !== "executive"}
-                    />
+                    <Input {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -167,23 +166,20 @@ export function AddMembershipDialog({ studentId }: AddMembershipDialogProps) {
                 <FormItem>
                   <FormLabel>Join Date</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="date"
-                      value={field.value}
-                    />
+                    <Input type="date" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={mutation.isPending}
-            >
-              {mutation.isPending ? "Joining..." : "Join Club"}
-            </Button>
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={mutation.isPending}>
+                {mutation.isPending ? "Adding..." : "Add to Club"}
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>
