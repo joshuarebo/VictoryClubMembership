@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import type { Student, Membership } from "@shared/schema";
 import { AddStudentDialog } from "./add-student-dialog";
 import { AddMembershipDialog } from "./add-membership-dialog";
+import { ViewStudentDialog } from "./view-student-dialog";
 
 export default function Students() {
   const { data: students, isLoading: studentsLoading } = useQuery<Student[]>({
@@ -73,9 +74,10 @@ export default function Students() {
                     </TableCell>
                     <TableCell className="space-x-2">
                       <AddMembershipDialog studentId={student.id} />
-                      <Button variant="ghost" size="sm">
-                        View Details
-                      </Button>
+                      <ViewStudentDialog 
+                        student={student} 
+                        memberships={memberships || []} 
+                      />
                     </TableCell>
                   </TableRow>
                 );

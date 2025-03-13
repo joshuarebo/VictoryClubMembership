@@ -10,7 +10,79 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AddClubDialog } from "./add-club-dialog";
-import type { Club, Membership } from "@shared/schema";
+import type { Club, Membership, Student } from "@shared/schema";
+import { AddActivityDialog } from "../activities/add-activity-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { format } from "date-fns";
+
+interface ViewMembersDialogProps {
+  clubId: number;
+  clubName: string;
+  memberships: Membership[];
+}
+
+function ViewMembersDialog({ clubId, clubName, memberships }: ViewMembersDialogProps) {
+  const { data: students } = useQuery<Student[]>({
+    queryKey: ["/api/students"],
+  });
+
+  const clubMembers = memberships.filter(m => m.clubId === clubId);
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="sm">
+          View Members
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-3xl">
+        <DialogHeader>
+          <DialogTitle>{clubName} Members</DialogTitle>
+        </DialogHeader>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Admission Number</TableHead>
+              <TableHead>Class</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Position</TableHead>
+              <TableHead>Join Date</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {clubMembers.map((member) => {
+              const student = students?.find(s => s.id === member.studentId);
+              return (
+                <TableRow key={member.id}>
+                  <TableCell>{student?.name}</TableCell>
+                  <TableCell>{student?.admissionNumber}</TableCell>
+                  <TableCell>{student?.class}</TableCell>
+                  <TableCell className="capitalize">{member.role}</TableCell>
+                  <TableCell>{member.position || '-'}</TableCell>
+                  <TableCell>{format(new Date(member.joinDate), 'MMM d, yyyy')}</TableCell>
+                </TableRow>
+              );
+            })}
+            {clubMembers.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center py-4">
+                  No members in this club yet.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function Clubs() {
   const { data: clubs, isLoading: clubsLoading } = useQuery<Club[]>({
@@ -70,12 +142,12 @@ export default function Clubs() {
                       {clubMemberships?.length || 0} students
                     </TableCell>
                     <TableCell className="space-x-2">
-                      <Button variant="ghost" size="sm">
-                        View Members
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        Add Activity
-                      </Button>
+                      <ViewMembersDialog 
+                        clubId={club.id} 
+                        clubName={club.name} 
+                        memberships={memberships || []} 
+                      />
+                      <AddActivityDialog clubId={club.id} />
                     </TableCell>
                   </TableRow>
                 );

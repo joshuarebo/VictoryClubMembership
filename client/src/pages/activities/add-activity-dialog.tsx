@@ -31,7 +31,11 @@ import { apiRequest } from "@/lib/queryClient";
 import { Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export function AddActivityDialog() {
+interface AddActivityDialogProps {
+  clubId?: number;
+}
+
+export function AddActivityDialog({ clubId }: AddActivityDialogProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -47,6 +51,7 @@ export function AddActivityDialog() {
       name: "",
       date: new Date().toISOString().split('T')[0],
       revenue: 0,
+      clubId: clubId,
     },
   });
 
@@ -80,7 +85,7 @@ export function AddActivityDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant={clubId ? "ghost" : "default"} size={clubId ? "sm" : "default"}>
           <Plus className="h-4 w-4 mr-2" />
           Add Activity
         </Button>
@@ -91,33 +96,35 @@ export function AddActivityDialog() {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="clubId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Club</FormLabel>
-                  <Select
-                    onValueChange={(value) => field.onChange(Number(value))}
-                    value={field.value?.toString()}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a club" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {clubs?.map((club) => (
-                        <SelectItem key={club.id} value={club.id.toString()}>
-                          {club.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {!clubId && (
+              <FormField
+                control={form.control}
+                name="clubId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Club</FormLabel>
+                    <Select
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value?.toString()}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a club" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {clubs?.map((club) => (
+                          <SelectItem key={club.id} value={club.id.toString()}>
+                            {club.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="name"
